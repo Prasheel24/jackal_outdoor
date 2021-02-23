@@ -1,0 +1,108 @@
+#Configuation for robot odometry EKF with GPS
+#
+frequency: 15 # When the filter produces an estimate
+sensor_timeout: 0.1 # in sec, EKF will generate new output
+
+map_frame: map
+odom_frame: odom
+base_link_frame: base_link
+## 1
+world_frame: map # set to map since official doc says if using GPS, EKF will still do its job 
+# But do check if something is producing the odom->base_link frame
+
+# transform_time_offset: 0.0 # to have an offset timestamp, not needed
+# transform_timeout: 0.0 # will affect filter's timing to wait for a tf2 transform
+
+print_diagnostics: true # Check /diagnostics topic for sensor issues
+
+debug: false
+
+# Wheel odom
+# -----------
+# Considering: x_dot, y_dot, z_dot, yaw_dot
+# -----------
+odom0: /jackal_velocity_controller/odom
+odom0_config: [false, false, false,
+               false, false, false,
+               true, true, true,
+               false, false, true,
+               false, false, false]
+## 2
+odom0_queue_size: 10 # used when the sensor frequency + filer frequency = desired frequency               
+odom0_differential: false # when used with GPS, set to false!
+
+## 3
+odom0_relative: true #to get pose data to start from 0 and measure deviations from 0
+
+# GPS odom
+# -----------
+# Considering: x, y
+# -----------
+odom1: /odometry/gps
+odom1_config: [true, true, false,
+               false, false, false,
+               false, false, false,
+               false, false, false,
+               false, false, false]
+odom1_queue_size: 10
+odom1_differential: false
+odom1_relative: false
+
+# IMU
+# -----------
+# Considering: x_dot, y_dot, z_dot, yaw_dot
+# -----------
+imu0: /imu/data
+imu0_config: [false,  false, false,
+               true,  true, false,
+               false, false, false,
+               true,  true,  true,
+               true,  false,  true]
+imu0_queue_size: 10
+imu0_differential: false
+imu0_relative: false
+## 4
+imu0_remove_gravitational_acceleration: true # To remove g(9.86) and produce absolute orientation
+
+## 5 Intiial state in the launch file.<rosparam param="initial_state">[5.0,  4.0,  3.0, 0.0,  0.0,  1.57, 0.1,  0.2,  0.3, 0.0,  0.0,  0.0, 0.0,  0.0,  0.0]</rosparam>
+
+## 6 smooth_lagged_data: true # used with laser scan matchers or lagging sensors
+
+## 7 check for odom0,1,imu0_nodelay to set to true for all.
+
+## 8 Check if error reduces until current time
+# predict_to_current_time: true 
+
+## 9 Check for robot_localization/SetPose service. To set filter pose at any given time.
+
+process_noise_covariance: [0.05,   0,    0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
+                             0,   0.05,  0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
+                             0,    0,    0.06, 0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
+                             0,    0,    0,    0.03, 0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
+                             0,    0,    0,    0,    0.03, 0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
+                             0,    0,    0,    0,    0,    0.01, 0,     0,     0,    0,    0,    0,    0,    0,    0,
+                             0,    0,    0,    0,    0,    0,    0.025, 0,     0,    0,    0,    0,    0,    0,    0,
+                             0,    0,    0,    0,    0,    0,    0,     0.025, 0,    0,    0,    0,    0,    0,    0,
+                             0,    0,    0,    0,    0,    0,    0,     0,     0.05, 0,    0,    0,    0,    0,    0,
+                             0,    0,    0,    0,    0,    0,    0,     0,     0,    0.01, 0,    0,    0,    0,    0,
+                             0,    0,    0,    0,    0,    0,    0,     0,     0,    0,    0.01, 0,    0,    0,    0,
+                             0,    0,    0,    0,    0,    0,    0,     0,     0,    0,    0,    0.03, 0,    0,    0,
+                             0,    0,    0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    0.09, 0,    0,
+                             0,    0,    0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0.09, 0,
+                             0,    0,    0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0.09]
+
+initial_estimate_covariance:  [1.0, 0,    0,    0,    0,    0,    0,    0,    0,    0,     0,     0,     0,    0,    0,
+                              0,    1.0 , 0,    0,    0,    0,    0,    0,    0,    0,     0,     0,     0,    0,    0,
+                              0,    0,    1e-9, 0,    0,    0,    0,    0,    0,    0,     0,     0,     0,    0,    0,
+                              0,    0,    0,    1.0 , 0,    0,    0,    0,    0,    0,     0,     0,     0,    0,    0,
+                              0,    0,    0,    0,    1.0,  0,    0,    0,    0,    0,     0,     0,     0,    0,    0,
+                              0,    0,    0,    0,    0,    1e-9, 0,    0,    0,    0,     0,     0,     0,    0,    0,
+                              0,    0,    0,    0,    0,    0,    1.0,  0,    0,    0,     0,     0,     0,    0,    0,
+                              0,    0,    0,    0,    0,    0,    0,    1.0,  0,    0,     0,     0,     0,    0,    0,
+                              0,    0,    0,    0,    0,    0,    0,    0,    1.0,  0,     0,     0,     0,    0,    0,
+                              0,    0,    0,    0,    0,    0,    0,    0,    0,    1.0,   0,     0,     0,    0,    0,
+                              0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     1.0,   0,     0,    0,    0,
+                              0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,     1.0,   0,    0,    0,
+                              0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,     0,     1.0,  0,    0,
+                              0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,     0,     0,    1.0,  0,
+                              0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,     0,     0,    0,    1.0]
