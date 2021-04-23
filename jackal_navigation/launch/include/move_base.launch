@@ -16,12 +16,13 @@
     <param name="base_global_planner" type="string" value="navfn/NavfnROS" />
     <param name="base_local_planner" value="base_local_planner/TrajectoryPlannerROS"/>
     <!-- Jackal Original -->
-    <!-- <remap from="odom" to="odometry/filtered" /> -->
+    <remap from="odom" to="odometry/filtered" />
 
 <!-- Added Changes -->
-    <remap from="odom" to="/outdoor_waypoint_nav/odometry/filtered_map" />
-    <remap from="cmd_vel" to="/cmd_vel_intermediate" />
-    <remap from="/map" to="/outdoor_waypoint_nav/map" />
+    <!-- <remap from="odom" to="/rtabmap/odom" /> -->
+    <remap from="cmd_vel" to="/velocity_smoother/raw_cmd_vel" />
+    <remap from="/map" to="/map" />
+    <remap from="scan" to="/scan" />
   </node>
 
 </launch>
