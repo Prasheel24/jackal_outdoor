@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<robot name="jackal" xmlns:xacro="http://wiki.ros.org/xacro">
+  <xacro:arg name="use_nominal_extrinsics" default="false"/>
+  <xacro:arg name="add_plug" default="false" />
+
+  <xacro:include filename="$(find jackal_description)/urdf/jackal.urdf.xacro"/>
+  <!-- <xacro:include filename="$(find jackal_description)/urdf/accessories/standoffs.urdf.xacro" /> -->
+  <!-- <link name="base_link_mount"/> -->
+<!--   <standoff name="standoff0" length="0.12" parent="chassis_link">
+      <origin xyz="0.060 0.060 0.18" rpy="0 0 0"/>
+  </standoff>
+  <standoff name="standoff1" length="0.12" parent="chassis_link">
+    <origin xyz="0.060 -0.060 0.18" rpy="0 0 0"/>
+  </standoff>
+  <standoff name="standoff2" length="0.12" parent="chassis_link">
+    <origin xyz="-0.060 0.060 0.18" rpy="0 0 0"/>
+  </standoff>
+  <standoff name="standoff3" length="0.12" parent="chassis_link">
+    <origin xyz="-0.060 -0.060 0.18" rpy="0 0 0"/>
+  </standoff> -->
+
+<!-- <xacro:include filename="$(find jackal_description)/urdf/accessories/bridge_plate.urdf.xacro" /> -->
+  
+<!--   <xacro:include filename="$(find jackal_description)/urdf/accessories/hokuyo_ust10.urdf.xacro" />
+  <hokuyo_ust10_mount prefix="base"
+                      parent_link="chassis_link"
+                      topic="base" />
+
+  <xacro:include filename="$(find realsense2_description)/urdf/_d435.urdf.xacro" />
+  
+  <xacro:sensor_d435 parent="chassis_link" use_nominal_extrinsics="false" add_plug="false"> 
+    <origin xyz="0.135 0 0.36" rpy="0 0 0" />
+  </xacro:sensor_d435> -->
+
+</robot>
