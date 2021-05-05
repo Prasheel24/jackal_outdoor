@@ -6,6 +6,7 @@
   <arg name="tf_prefix"           default="$(arg camera)"/>
   <arg name="external_manager"    default="false"/>
   <arg name="manager"             default="realsense2_camera_manager"/>
+  <arg name="tf_publish_rate"       default="10"/>
 
   <arg name="fisheye_width"       default="640"/>
   <arg name="fisheye_height"      default="480"/>
@@ -103,26 +104,30 @@
   </group>
 
   <!-- Loads the camera model -->
-  <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find jackal_description)/urdf/complete_jackal_setup.urdf.xacro'"/>
+  <!-- <param name="robot_description" command="$(find xacro)/xacro inorder '$(find jackal_description)/urdf/complete_jackal_setup.urdf.xacro'"/> -->
+
 <!--   <param name="robot_description" command="$(find xacro)/xacro inorder '$(find realsense2_description)/urdf/test_d435_camera.urdf.xacro' use_nominal_extrinsics:=false"/> -->
 
 
-  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"></node>
-  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+ <!--  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"></node>
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
+     <param name="publish_frequency" type="double" value="30.0" />
+  </node> -->
   
 
-  <!-- <node pkg="tf" type="static_transform_publisher" name="base_link_to_chassis_link" args="0 0 0 0 0 0 1 /base_link /chassis_link 30" /> 
-  <node pkg="tf" type="static_transform_publisher" name="base_link_to_base_laser" args="0.180 0.0 0.280 0 0 0 /chassis_link /base_laser 30" />
-  <node pkg="tf" type="static_transform_publisher" name="base_laser_to_scan" args="0.0 0.0 0.0635 0 0 0 /base_laser /scan 30" />
+   <!-- <node pkg="tf" type="static_transform_publisher" name="base_link_to_chassis_link" args="0 0 0 0 0 0 1 /base_link /chassis_link 30" />  -->
+  <node pkg="tf" type="static_transform_publisher" name="base_link_to_base_laser" args="0.180 0.0 0.32 0 0 0 /chassis_link /base_laser 30" />
+  <!-- <node pkg="tf" type="static_transform_publisher" name="base_laser_to_scan" args="0.0 0.0 0.0635 0 0 0 /base_laser /scan 30" /> -->
   <node pkg="tf" type="static_transform_publisher" name="base_link_to_camera" args="0.16 0 0.36 0 0 0 /chassis_link /camera_bottom_screw_frame 30" />
-  <node pkg="tf" type="static_transform_publisher" name="camera_screw_to_camera_link" args="0 0 0 0 0 0 1 /camera_bottom_screw_frame /camera_link 30" />
--->
-<!-- <node pkg="tf" type="static_transform_publisher" name="base_link_to_chassis_link" args="0 0 0 0 0 0 1 /base_link /chassis_link 30" />  -->
+  <!-- <node pkg="tf" type="static_transform_publisher" name="base_link_to_realsense" args="0.16 0 0.36 0 0 0 /chassis_link /realsense_frame 100" /> -->
+  <node pkg="tf" type="static_transform_publisher" name="camera_screw_to_camera_link" args="0 0 0.001 0 0 0 /camera_bottom_screw_frame /camera_link 30" />
+
+<!-- <node pkg="tf" type="static_transform_publisher" name="base_link_to_chassis_link" args="0 0 0 0 0 0 1 /base_link /chassis_link 30" /> 
   <node pkg="tf" type="static_transform_publisher" name="base_link_to_base_laser_mount" args="0.18 0 0.28 0 0 0 /chassis_link /base_laser_mount 30" />
   <node pkg="tf" type="static_transform_publisher" name="base_laser_mount_to_base_laser" args="0 0 0 0 0.0635 0 /base_laser_mount /base_laser 30" />
   <node pkg="tf" type="static_transform_publisher" name="base_laser_to_scan" args="0 0 0 0 0 0 /base_laser /scan 30" />
   <node pkg="tf" type="static_transform_publisher" name="base_link_to_camera" args="0.135 0 0.36 0 0 0 /chassis_link /camera_bottom_screw_frame 30" />
-  <node pkg="tf" type="static_transform_publisher" name="camera_screw_to_camera_link" args="0 0 0.021 0 0 0 1 /camera_bottom_screw_frame /camera_link 30" />
+  <node pkg="tf" type="static_transform_publisher" name="camera_screw_to_camera_link" args="0 0 0.021 0 0 0 1 /camera_bottom_screw_frame /camera_link 30" /> -->
   <!-- <node pkg="tf" type="static_transform_publisher" name="camera_link_to_camera_frame" args="0 0 0 0 0 0 1 /camera_link /camera_color_frame 30" /> -->
   
   <!--  -->
