@@ -7,8 +7,8 @@
   <!--           See "delete_db_on_start" option below... -->
 
   <!-- Choose visualization -->
-  <arg name="rviz" default="false" />
-  <arg name="rtabmapviz" default="true" /> 
+  <arg name="rviz" default="true" />
+  <arg name="rtabmapviz" default="false" /> 
   
   <param name="use_sim_time" type="bool" value="True"/>
   
