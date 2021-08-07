@@ -1,17 +1,39 @@
-jackal
-======
+# Outdoor Navigation:
 
-Common packages for Jackal, including messages and robot description. These are packages relevant
-to all Jackal workspaces, whether simulation, desktop, or on the robot's own headless PC.
+## Overview -
+This is a research project to explore navigation strategies in outdoor terrains that have diverse topographical features. The setup we used are:
+- ClearPath Jackal
+- Intel Realsense D435i (RGB-D) camera
+- Hokuyo URG Lidar
+- Alienware Laptop
 
-## ToDo
-- Tune ekf for better localization
-- Incomplete setup for outdoor
+
+Setup -
+<p align="center">
+<img src="/setup_jackal.png" height="500" width="500" />
+</p>
+We explored terrains such as grass, pavements, brick road, and tar road. Our solution works both indoor and outdoor. We were able to achieve short navigation goals in an outdoor scene and excellent Visual SLAM implementation indoors. 
+
+## Results:
+Outdoor Mapping results 
+<p align="center">
+<img src="/odom_pcl.png" height="300" width="300" />
+</p>
+
+<p align="center">
+<img src="/odom_imu_pcl_match.png" />
+</p>
+
+[Indoor Navigation Video](https://drive.google.com/file/d/1ofelgKvekMCnvTF6X7wl-AqVWJtGFIdP/view?usp=sharing)
+
+## Dependencies -
+- ROS Kinetic/Melodic
+- RTABMAP
+- robot_localization
 
 ## Run
 ```
-roslaunch jackal_gazebo jackal_world.launch config:=front_laser
-roslaunch outdoor_waypoint_nav outdoor_waypoint_nav_sim.launch
+roslaunch outdoor_waypoint_nav robot_sim_mapping.launch
 ```
 
 ## References:
